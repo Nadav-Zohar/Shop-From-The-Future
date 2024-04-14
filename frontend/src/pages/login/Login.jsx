@@ -63,7 +63,8 @@ export const Login = () => {
         setLoader(false);
       });
   };
-  const backgroundImageUrl = "/assets/images/backgrounds/background3.jpg";
+  const backgroundImageUrl =
+    "http://localhost:5555/images/backgrounds/background3.jpg";
   return (
     <>
       <section
@@ -154,7 +155,7 @@ export const Login = () => {
         <div className="group sticky top-4 m-4 overflow-hidden rounded-3xl rounded-tl-[4rem] bg-slate-950  h-[calc(70vh_-_2rem)] xl:h-[calc(100vh_-_2rem)] hidden md:block">
           <img
             alt="An example image"
-            src="/assets/images/backgrounds/loginBackground.jpg"
+            src="http://localhost:5555/images/backgrounds/loginBackground.jpg"
             className="h-full w-full bg-white object-cover transition-all duration-500 group-hover:scale-105 group-hover:opacity-70"
           />
 

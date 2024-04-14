@@ -85,7 +85,7 @@ const TiltCard = ({ name, price, imageName, onClick }) => {
         <div className="product">
           <img
             className="product-image "
-            src={`/assets/images/${imageName}/${imageName}-${randomInt}.png`}
+            src={`http://localhost:5555/images/${imageName}/${imageName}-${randomInt}.png`}
             alt={name}
           />
         </div>

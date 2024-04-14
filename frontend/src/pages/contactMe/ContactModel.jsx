@@ -9,7 +9,8 @@ const ContactModel = () => {
   const containerRef = useRef(null);
   const inputRef = useRef(null);
 
-  const backgroundImageUrl = "/assets/images/backgrounds/background1.jpg";
+  const backgroundImageUrl =
+    "http://localhost:5555/images/backgrounds/background1.jpg";
 
   return (
     <section

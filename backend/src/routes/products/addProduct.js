@@ -1,10 +1,11 @@
 import { productValidation } from "../../helpers/productJoiValidation/product.validation.js";
+import { adminAuth } from "../../middlewares/adminAuth.js";
 import { authenticateUser } from "../../middlewares/auth.js";
 import { Product } from "../../models/product/products.schema.js";
 import { tokenDecoded } from "../../services/decodeToken.js";
 
 export const addProduct = (app) => {
-  app.post("/products", authenticateUser, async (req, res) => {
+  app.post("/products", authenticateUser, adminAuth, async (req, res) => {
     try {
       const productForm = req.body;
 
@@ -22,10 +23,6 @@ export const addProduct = (app) => {
 
       if (!userToken) {
         return res.status(401).send("Unauthorized: you are not connected");
-      }
-
-      if (!userToken.isAdmin) {
-        return res.status(403).send("Forbidden: you don't have permission");
       }
 
       productForm.user_id = decodedToken._id;

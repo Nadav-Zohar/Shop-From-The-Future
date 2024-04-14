@@ -81,7 +81,8 @@ export const Signup = () => {
       });
   };
 
-  const backgroundImageUrl = "/assets/images/backgrounds/background3.jpg";
+  const backgroundImageUrl =
+    "http://localhost:5555/images/backgrounds/background3.jpg";
   return (
     <>
       <section

@@ -10,9 +10,9 @@ export default function ProductCarousel({ product }) {
   const images =
     product.imageName && product.imageCount
       ? Array.from({ length: product.imageCount }, (_, index) => ({
-          src: `/assets/images/${product.imageName}/${product.imageName}-${
-            index + 1
-          }.png`,
+          src: `http://localhost:5555/images/${product.imageName}/${
+            product.imageName
+          }-${index + 1}.png`,
           id: index,
         }))
       : [];

@@ -3,7 +3,7 @@ import Joi from "joi";
 export const fieldsForProductAdd = [
   { htmlForAndId: "name", content: "Name", type: "text" },
   { htmlForAndId: "price", content: "Price", type: "number" },
-  { htmlForAndId: "companyName", content: "Company Name", type: "text" },
+  { htmlForAndId: "company", content: "Company Name", type: "text" },
   { htmlForAndId: "stock", content: "Stock", type: "number" },
   { htmlForAndId: "category", content: "Category", type: "text" },
   { htmlForAndId: "description", content: "Description", type: "textarea" },
@@ -23,7 +23,7 @@ export const addProductValidation = Joi.object({
     "number.precision": `"Price" must have at most 2 decimal places`,
     "any.required": `"Price" is a required field`,
   }),
-  companyName: Joi.string().min(2).max(50).required().messages({
+  company: Joi.string().min(2).max(50).required().messages({
     "string.min": `"Company Name" should have a minimum length of {#limit}`,
     "string.max": `"Company Name" should have a maximum length of {#limit}`,
     "any.required": `"Company Name" is a required field`,

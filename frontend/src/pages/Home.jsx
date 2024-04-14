@@ -51,7 +51,7 @@ export const Home = () => {
     animate(id, { background: "rgba(129, 140, 248, 1)" }, { duration: 0.15 });
   };
   const backgroundImageUrl =
-    "http://localhost:3000/public/images/backgrounds/heroSectionBackground.jpg";
+    "http://localhost:5555/images/backgrounds/heroSectionBackground.jpg";
 
   return (
     <>

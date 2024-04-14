@@ -8,10 +8,11 @@ export default function AddProduct() {
   const [isOpen, setIsOpen] = useState(false);
   const [files, setFiles] = useState([]);
   const [errors, setErrors] = useState({});
+  const [isFormValid, setIsFormValid] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     price: "",
-    companyName: "",
+    company: "",
     stock: "",
     category: "",
     description: "",
@@ -37,11 +38,36 @@ export default function AddProduct() {
         errors[key] = err;
       });
     }
+    setIsFormValid(!validate.error);
     setErrors(errors);
   };
 
-  console.log(formData);
-  console.log(errors);
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const imageName = formData.name.toLowerCase().replace(/\s+/g, "-");
+
+    // Get the count of uploaded files
+    const imageCount = files.length;
+
+    // Create a new object that includes all form data plus the new fields
+    const newFormData = {
+      ...formData,
+      imageName: imageName,
+      imageCount: imageCount,
+    };
+    fetch("http://localhost:5555/products", {
+      credentials: "include",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.token,
+      },
+      body: JSON.stringify(newFormData),
+    })
+      .then((response) => response.json())
+      .then(() => setIsOpen(false))
+      .catch((error) => console.error("Error:", error));
+  };
   return (
     <>
       <AddProductBtn setIsOpen={setIsOpen} />
@@ -62,7 +88,7 @@ export default function AddProduct() {
               className="bg-gradient-to-br from-violet-600 to-indigo-600 text-white p-3 rounded-lg w-full max-w-lg shadow-xl cursor-default relative overflow-hidden"
             >
               <section className="p-5 mx-auto bg-indigo-600 rounded-md shadow-md dark:bg-gray-800 ">
-                <form>
+                <form onSubmit={handleSubmit}>
                   <div className="grid grid-cols-1 gap-6 mt-3 sm:grid-cols-2">
                     {fieldsForProductAdd.map((field) => (
                       <div key={field.content}>
@@ -136,7 +162,13 @@ export default function AddProduct() {
                     </div>
                   </div>
                   <div className="flex justify-end mt-6">
-                    <button className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-pink-500 rounded-md hover:bg-pink-700 focus:outline-none focus:bg-gray-600">
+                    <button
+                      className={`${
+                        !isFormValid ? "bg-slate-400 " : ""
+                      } px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-pink-500 rounded-md hover:bg-pink-700 focus:outline-none focus:bg-gray-600`}
+                      disabled={!isFormValid}
+                      type="submit"
+                    >
                       Save
                     </button>
                   </div>
