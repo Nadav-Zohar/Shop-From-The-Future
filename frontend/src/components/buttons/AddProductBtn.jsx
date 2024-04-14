@@ -1,17 +1,18 @@
 /* eslint-disable react/prop-types */
-const AddProduct = () => {
+const AddProductBtn = ({ setIsOpen }) => {
   return (
     <div className="grid place-content-center bg-slate-900 p-3">
-      <DrawOutlineButton>Add Product</DrawOutlineButton>
+      <DrawOutlineButton setIsOpen={setIsOpen}>Add Product</DrawOutlineButton>
     </div>
   );
 };
 
-const DrawOutlineButton = ({ children, ...rest }) => {
+const DrawOutlineButton = ({ children, setIsOpen, ...rest }) => {
   return (
     <button
       {...rest}
       className="group relative px-4 py-2 font-medium text-slate-100 transition-colors duration-[400ms] hover:text-indigo-300"
+      onClick={() => setIsOpen(true)}
     >
       <span>{children}</span>
 
@@ -29,4 +30,4 @@ const DrawOutlineButton = ({ children, ...rest }) => {
   );
 };
 
-export default AddProduct;
+export default AddProductBtn;

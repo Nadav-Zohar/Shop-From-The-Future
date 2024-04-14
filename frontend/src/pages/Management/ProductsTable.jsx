@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { motion } from "framer-motion";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
-import AddProduct from "../../components/buttons/AddProduct";
+import AddProduct from "./AddProduct";
 const ProductsTable = ({ allProducts, setAllProducts, modalInfo }) => {
   return (
     <div className="p-8 w-full bg-slate-800 rounded-md">

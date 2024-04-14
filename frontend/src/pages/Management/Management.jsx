@@ -94,8 +94,6 @@ export const Management = () => {
     fetchData();
   }, []);
 
-  console.table(allProducts);
-
   return (
     <>
       <section className="overflow-hidden bg-slate-900 px-4 py-12 text-slate-50 w-full min-h-screen">
