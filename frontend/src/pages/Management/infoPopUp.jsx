@@ -2,7 +2,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 
 const InfoPopUp = ({ isOpen, setIsOpen, info }) => {
-  console.log(info);
   return <SpringModal isOpen={isOpen} setIsOpen={setIsOpen} info={info} />;
 };
 

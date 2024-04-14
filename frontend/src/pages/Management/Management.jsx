@@ -94,8 +94,6 @@ export const Management = () => {
     fetchData();
   }, []);
 
-  console.table(allUsers);
-  console.table(allOrders);
   console.table(allProducts);
 
   return (

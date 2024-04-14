@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { motion } from "framer-motion";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+import AddProduct from "../../components/buttons/AddProduct";
 const ProductsTable = ({ allProducts, setAllProducts, modalInfo }) => {
   return (
     <div className="p-8 w-full bg-slate-800 rounded-md">
@@ -39,6 +40,7 @@ const Table = ({ allProducts, setAllProducts, modalInfo }) => {
 
   return (
     <div className="w-full bg-slate-700 shadow-lg rounded-lg overflow-x-scroll max-w-4xl mx-auto">
+      <AddProduct />
       <table className="w-full">
         <thead>
           <tr className="border-b-[1px] border-violet-600 text-slate-100 text-sm uppercase">
