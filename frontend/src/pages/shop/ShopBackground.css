@@ -1,0 +1,148 @@
+.container {
+  background: #11131a;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 2;
+  width: 100%;
+}
+
+.blob-c {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 3;
+  filter: blur(40px);
+}
+
+.shape-blob {
+  background: #8a2be2;
+  height: 60px;
+  width: 80px;
+  border-radius: 40% 50% 30% 40%;
+  animation: transform 7s ease-in-out infinite both alternate,
+    movement_one 4s ease-in-out infinite both;
+  opacity: 0.7;
+  position: absolute;
+  top: 10%;
+  left: 20%;
+}
+.shape-blob.one {
+  background: #4b0082;
+  height: 150px;
+  width: 200px;
+  top: 65%;
+  left: 40%;
+  transform: rotate(-180deg);
+  animation: transform 4s ease-in-out infinite both alternate,
+    movement_one 8s ease-in-out infinite both;
+}
+
+.shape-blob.six {
+  background: #8a2be2;
+  height: 70px;
+  width: 100px;
+  top: 25%;
+  left: 60%;
+  transform: rotate(-180deg);
+  animation: transform 6s ease-in-out infinite both alternate,
+    movement_two 5s ease-in-out infinite both;
+}
+
+.shape-blob.four {
+  background: #4b0082;
+  height: 100px;
+  width: 80px;
+  top: 45%;
+  left: 80%;
+  transform: rotate(-180deg);
+  animation: transform 5s ease-in-out infinite both alternate,
+    movement_two 8s ease-in-out infinite both;
+}
+
+.shape-blob.five {
+  background: #8a2be2;
+  height: 100px;
+  width: 80px;
+  top: 55%;
+  left: 15%;
+  transform: rotate(-180deg);
+  animation: transform 3s ease-in-out infinite both alternate,
+    movement_three 6s ease-in-out infinite both;
+}
+
+.shape-blob.two {
+  background: #4b0082;
+  height: 150px;
+  width: 150px;
+  top: 65%;
+  left: 70%;
+  transform: rotate(-180deg);
+  animation: transform 2s ease-in-out infinite both alternate,
+    movement_two 5s ease-in-out infinite both;
+}
+
+.shape-blob.three {
+  background: #8a2be2;
+  height: 150px;
+  width: 150px;
+  top: 35%;
+  left: 30%;
+  transform: rotate(-180deg);
+  animation: transform 4s ease-in-out infinite both alternate,
+    movement_three 7s ease-in-out infinite both;
+}
+
+@keyframes transform {
+  0%,
+  100% {
+    border-radius: 33% 67% 70% 30% / 30% 40% 70% 70%;
+  }
+  20% {
+    border-radius: 37% 63% 51% 49% / 37% 35% 35% 63%;
+  }
+  40% {
+    border-radius: 36% 64% 64% 36% / 64% 48% 52% 26%;
+  }
+  60% {
+    border-radius: 37% 63% 51% 49% / 30% 30% 70% 73%;
+  }
+  80% {
+    border-radius: 40% 60% 42% 58% / 51% 51% 49% 59%;
+  }
+}
+
+@keyframes movement_one {
+  0%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: translate(50%, 20%) rotateY(10deg) scale(1.3);
+  }
+}
+
+@keyframes movement_two {
+  0%,
+  300% {
+    transform: none;
+  }
+  50% {
+    transform: translate(50%, 20%) rotate(-150deg) scale(1.4);
+  }
+}
+@keyframes movement_three {
+  0%,
+  200% {
+    transform: none;
+  }
+  50% {
+    transform: translate(50%, 20%) rotate(-100deg) scale(1.7);
+  }
+}

@@ -1,0 +1,50 @@
+.details {
+  border-radius: 2vw;
+  -webkit-filter: drop-shadow(2px 6px 3px rgba(0, 0, 0, 0.4));
+  filter: drop-shadow(2px 6px 3px rgba(0, 0, 0, 0.4));
+  transform: rotate(0deg) translate(0, 0);
+  transition-property: transform;
+  transition-duration: 0.3s;
+}
+
+.product {
+  position: absolute;
+  z-index: 3;
+  width: 92%;
+  height: 92%;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  border-radius: 1.2vw;
+  background: #001a23;
+  overflow: hidden;
+}
+.product-name,
+.product-price,
+.product-image {
+  position: absolute;
+  z-index: 4;
+}
+.product-name,
+.product-price {
+  padding: 0.4em;
+}
+
+.product-name {
+  top: 2%;
+  left: 3.7%;
+}
+.product-price {
+  bottom: 2%;
+  right: 3.5%;
+  font-size: 1.2em;
+}
+.product-image {
+  height: 106%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-2%);
+  transition-property: height, transform;
+  transition-duration: 0.3s;
+  background-size: cover;
+  background-position: center;
+}
