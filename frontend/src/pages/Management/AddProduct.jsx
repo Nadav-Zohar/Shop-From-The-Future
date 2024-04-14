@@ -46,23 +46,28 @@ export default function AddProduct() {
     event.preventDefault();
     const imageName = formData.name.toLowerCase().replace(/\s+/g, "-");
 
-    // Get the count of uploaded files
-    const imageCount = files.length;
+    // Create a new FormData object for the submission
+    const submitFormData = new FormData();
+    submitFormData.append("name", formData.name);
+    submitFormData.append("price", formData.price);
+    submitFormData.append("company", formData.company);
+    submitFormData.append("stock", formData.stock);
+    submitFormData.append("category", formData.category);
+    submitFormData.append("description", formData.description);
+    submitFormData.append("imageName", imageName);
 
-    // Create a new object that includes all form data plus the new fields
-    const newFormData = {
-      ...formData,
-      imageName: imageName,
-      imageCount: imageCount,
-    };
+    files.forEach((file, index) => {
+      submitFormData.append("images", file, `${imageName}-${index + 1}.png`);
+    });
+    submitFormData.append("imageCount", files.length); // Number of images
+
     fetch("http://localhost:5555/products", {
       credentials: "include",
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         Authorization: localStorage.token,
       },
-      body: JSON.stringify(newFormData),
+      body: submitFormData,
     })
       .then((response) => response.json())
       .then(() => setIsOpen(false))

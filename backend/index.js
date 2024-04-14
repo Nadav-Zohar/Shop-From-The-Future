@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import morgan from "morgan";
 import chalk from "chalk";
+import multer from "multer";
 import { signUp } from "./src/routes/users/Signup.js";
 import { login } from "./src/routes/users/Login.js";
 import { addProduct } from "./src/routes/products/addProduct.js";
@@ -39,6 +40,8 @@ app.use(morgan(":date[iso] :method :url :status :response-time ms"));
 
 app.use(express.json());
 
+app.use(express.urlencoded({ extended: true }));
+
 app.use(express.static("public"));
 
 mongoose
@@ -53,6 +56,33 @@ app.get("/", (req, res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(chalk.blue(`Server running on port ${PORT}`));
+});
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const imageName = req.body.imageName;
+    const dir = path.join(__dirname, "public", "images", imageName);
+
+    // Create directory if it does not exist
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+
+    cb(null, dir);
+  },
+  filename: function (req, file, cb) {
+    const imageName = req.body.imageName;
+    const fileCount = req.body.imageCount; // Passed from frontend or you can manage count here
+    const extension = path.extname(file.originalname);
+    const fileName = `${imageName}-${fileCount}${extension}`;
+    cb(null, fileName);
+  },
+});
+
+const upload = multer({ storage: storage });
+
+app.post("/upload", upload.array("images"), (req, res) => {
+  res.send("Files uploaded successfully!");
 });
 
 signUp(app);
