@@ -1,38 +1,40 @@
 /* eslint-disable react/prop-types */
 import { motion } from "framer-motion";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
-import { MdDelete } from "react-icons/md";
-import { RiAdminFill } from "react-icons/ri";
-const ProductsTable = ({ allUsers, setAllUsers }) => {
+const ProductsTable = ({ allProducts, setAllProducts, modalInfo }) => {
   return (
     <div className="p-8 w-full bg-slate-800 rounded-md">
-      <Table allUsers={allUsers} setAllUsers={setAllUsers} />
+      <Table
+        allProducts={allProducts}
+        setAllProducts={setAllProducts}
+        modalInfo={modalInfo}
+      />
     </div>
   );
 };
 
-const Table = ({ allUsers, setAllUsers }) => {
+const Table = ({ allProducts, setAllProducts, modalInfo }) => {
   const shift = (id, direction) => {
-    const index = allUsers.findIndex((u) => u._id === id);
-    let usersCopy = [...allUsers];
+    const index = allProducts.findIndex((u) => u._id === id);
+    let productsCopy = [...allProducts];
 
     if (direction === "up") {
       if (index > 0) {
-        [usersCopy[index], usersCopy[index - 1]] = [
-          usersCopy[index - 1],
-          usersCopy[index],
+        [productsCopy[index], productsCopy[index - 1]] = [
+          productsCopy[index - 1],
+          productsCopy[index],
         ];
       }
     } else {
-      if (index < usersCopy.length - 1) {
-        [usersCopy[index], usersCopy[index + 1]] = [
-          usersCopy[index + 1],
-          usersCopy[index],
+      if (index < productsCopy.length - 1) {
+        [productsCopy[index], productsCopy[index + 1]] = [
+          productsCopy[index + 1],
+          productsCopy[index],
         ];
       }
     }
 
-    setAllUsers(usersCopy);
+    setAllProducts(productsCopy);
   };
 
   return (
@@ -41,23 +43,23 @@ const Table = ({ allUsers, setAllUsers }) => {
         <thead>
           <tr className="border-b-[1px] border-violet-600 text-slate-100 text-sm uppercase">
             <th className="pl-4 w-8"></th>
-            <th className="text-start p-4 font-medium">Full Name</th>
-            <th className="text-start p-4 font-medium">Email</th>
-            <th className="text-start p-4 font-medium">Create Time</th>
-            <th className="text-start p-4 font-medium">Is Admin</th>
-            <th className="text-start p-4 font-medium">Action</th>
+            <th className="text-start p-4 font-medium">Name</th>
+            <th className="text-start p-4 font-medium">Price</th>
+            <th className="text-start p-4 font-medium">Stock</th>
+            <th className="text-start p-4 font-medium">CreatedAt</th>
           </tr>
         </thead>
 
         <tbody>
-          {allUsers.map((user, index) => {
+          {allProducts.map((product, index) => {
             return (
               <TableRows
-                key={user._id}
-                user={user}
+                key={product._id}
+                product={product}
                 index={index}
                 shift={shift}
-                setAllUsers={setAllUsers}
+                setAllProducts={setAllProducts}
+                modalInfo={modalInfo}
               />
             );
           })}
@@ -67,77 +69,23 @@ const Table = ({ allUsers, setAllUsers }) => {
   );
 };
 
-const TableRows = ({ user, shift, setAllUsers }) => {
-  const handleDelete = (userId) => {
-    if (user.isAdmin == true) {
-      return alert("you cant delete admins...");
-    }
-    const deleteCheck = confirm("Are You Sure You Want To Delete This User?");
-    if (deleteCheck) {
-      fetch(`http://localhost:5555/users/${userId}`, {
-        credentials: "include",
-        method: "DELETE",
-        headers: {
-          Authorization: localStorage.token,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ user: user.isAdmin }),
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Failed to delete the user");
-          }
-          setAllUsers((prevUsers) =>
-            prevUsers.filter((user) => user._id !== userId)
-          );
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-    }
-  };
-
-  const handleUpdateToAdmin = (userId) => {
-    const updateCheck = confirm(
-      "after upgrading you cannot downgrade. Are You Sure You Want To update This User?"
-    );
-    if (updateCheck) {
-      fetch(`http://localhost:5555/users/${userId}`, {
-        credentials: "include",
-        method: "PATCH",
-        headers: {
-          Authorization: localStorage.token,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ user: user.isAdmin }),
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Failed to update the user");
-          }
-          setAllUsers((prevUsers) =>
-            prevUsers.map((user) =>
-              user._id === userId ? { ...user, isAdmin: true } : user
-            )
-          );
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-    }
-  };
+const TableRows = ({ product, shift, modalInfo }) => {
   return (
-    <motion.tr layoutId={`row-${user._id}`} className={`text-sm`}>
+    <motion.tr
+      layoutId={`row-${product._id}`}
+      className={`text-sm cursor-pointer`}
+      onClick={() => modalInfo(product)}
+    >
       <td className="pl-4 w-8 text-lg text-indigo-500">
         <button
           className="hover:text-violet-600"
-          onClick={() => shift(user._id, "up")}
+          onClick={() => shift(product._id, "up")}
         >
           <FiChevronUp />
         </button>
         <button
           className="hover:text-violet-600"
-          onClick={() => shift(user._id, "down")}
+          onClick={() => shift(product._id, "down")}
         >
           <FiChevronDown />
         </button>
@@ -145,47 +93,20 @@ const TableRows = ({ user, shift, setAllUsers }) => {
 
       <td className="p-4 flex items-center gap-3 overflow-hidden">
         <div>
-          <span className="block mb-1 font-medium text-slate-100">
-            {`${user.firstName} ${user.lastName}`}
+          <span className="block mb-1 font-medium text-slate-100 capitalize">
+            {`${product.name}`}
           </span>
         </div>
       </td>
 
       <td className="p-4">
         <div className={`flex items-center gap-2 font-medium text-slate-100`}>
-          {user.email}
+          {product.price}
         </div>
       </td>
 
-      <td className="p-4 font-medium text-slate-100">{user.createdAt}</td>
-
-      <td className="p-4">
-        <span
-          className={`px-2 py-1 text-sm font-medium rounded ${
-            user.isAdmin == true
-              ? "bg-violet-800 text-violet-200"
-              : user.isAdmin == false
-              ? "bg-indigo-800 text-indigo-200"
-              : ""
-          }`}
-        >
-          {user.isAdmin ? "admin" : "regular"}
-        </span>
-      </td>
-      <td className="flex flex-row justify-evenly ">
-        <button
-          onClick={() => handleDelete(user._id)}
-          className="hover:scale-125 transition-transform"
-        >
-          <MdDelete className="text-red-400 text-lg cursor-pointer" />
-        </button>
-        <button
-          className="hover:scale-125 transition-transform"
-          onClick={() => handleUpdateToAdmin(user._id)}
-        >
-          <RiAdminFill className="text-indigo-400 text-lg cursor-pointer" />
-        </button>
-      </td>
+      <td className="p-4 font-medium text-slate-100">{product.stock}</td>
+      <td className="p-4 font-medium text-slate-100">{product.createdAt}</td>
     </motion.tr>
   );
 };

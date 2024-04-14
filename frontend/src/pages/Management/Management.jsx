@@ -9,6 +9,7 @@ import ShuffleSortTable from "./UsersTable";
 import OrderTable from "./OrderTable";
 import ProductsTable from "./ProductsTable";
 import { GeneralContext } from "../../app/App";
+import InfoPopUp from "./infoPopUp";
 
 export const Management = () => {
   const { updateNotification, setLoader } = useContext(GeneralContext);
@@ -19,6 +20,14 @@ export const Management = () => {
   const [allProducts, setAllProducts] = useState([]);
 
   const [isLoading, setIsLoading] = useState(true);
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [info, setInfo] = useState([]);
+
+  const modalInfo = (info) => {
+    setIsOpen(true);
+    setInfo(info);
+  };
 
   const renderTable = (selected) => {
     switch (selected) {
@@ -31,10 +40,17 @@ export const Management = () => {
           <ProductsTable
             allProducts={allProducts}
             setAllProducts={setAllProducts}
+            modalInfo={modalInfo}
           />
         );
       case "Orders":
-        return <OrderTable allOrders={allOrders} setAllOrders={setAllOrders} />;
+        return (
+          <OrderTable
+            allOrders={allOrders}
+            setAllOrders={setAllOrders}
+            modalInfo={modalInfo}
+          />
+        );
       default:
         return null;
     }
@@ -77,6 +93,10 @@ export const Management = () => {
 
     fetchData();
   }, []);
+
+  console.table(allUsers);
+  console.table(allOrders);
+  console.table(allProducts);
 
   return (
     <>
@@ -139,6 +159,7 @@ export const Management = () => {
           </div>
         )}
       </section>
+      <InfoPopUp isOpen={isOpen} setIsOpen={setIsOpen} info={info} />
       <Footer />
     </>
   );

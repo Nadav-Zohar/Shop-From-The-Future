@@ -2,15 +2,19 @@
 import { motion } from "framer-motion";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 import { FaCheck } from "react-icons/fa";
-const OrdersTable = ({ allOrders, setAllOrders }) => {
+const OrdersTable = ({ allOrders, setAllOrders, modalInfo }) => {
   return (
     <div className="p-8 w-full bg-slate-800 rounded-md">
-      <Table allOrders={allOrders} setAllOrders={setAllOrders} />
+      <Table
+        allOrders={allOrders}
+        setAllOrders={setAllOrders}
+        modalInfo={modalInfo}
+      />
     </div>
   );
 };
 
-const Table = ({ allOrders, setAllOrders }) => {
+const Table = ({ allOrders, setAllOrders, modalInfo }) => {
   const shift = (id, direction) => {
     const index = allOrders.findIndex((u) => u._id === id);
     let ordersCopy = [...allOrders];
@@ -57,6 +61,7 @@ const Table = ({ allOrders, setAllOrders }) => {
                 index={index}
                 shift={shift}
                 setAllOrders={setAllOrders}
+                modalInfo={modalInfo}
               />
             );
           })}
@@ -66,7 +71,7 @@ const Table = ({ allOrders, setAllOrders }) => {
   );
 };
 
-const TableRows = ({ order, shift, setAllOrders }) => {
+const TableRows = ({ order, shift, setAllOrders, modalInfo }) => {
   const handleUpdateToComplete = (orderId, orderStatus) => {
     const updateCheck = confirm("Are You Sure The Order Is Complete?");
     if (updateCheck) {
@@ -132,9 +137,19 @@ const TableRows = ({ order, shift, setAllOrders }) => {
         </div>
       </td>
 
-      <td className="p-3 font-medium text-slate-100">show</td>
+      <td
+        className="p-3 font-medium text-slate-100 cursor-pointer"
+        onClick={() => modalInfo(order.paymentDetails)}
+      >
+        show
+      </td>
 
-      <td className=" p-3 font-medium text-slate-100 ">show</td>
+      <td
+        className=" p-3 font-medium text-slate-100 cursor-pointer"
+        onClick={() => modalInfo(order.shippingDetails)}
+      >
+        show
+      </td>
 
       <td className="p-3 flex flex-row justify-evenly items-center">
         <span
