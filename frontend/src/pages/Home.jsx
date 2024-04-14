@@ -42,18 +42,16 @@ export const Home = () => {
   };
 
   const handleMouseLeave = (e) => {
-    // @ts-ignore
     const id = `#${e.target.id}`;
     animate(id, { background: "rgba(129, 140, 248, 0)" }, { duration: 1.5 });
   };
 
   const handleMouseEnter = (e) => {
-    // @ts-ignore
     const id = `#${e.target.id}`;
     animate(id, { background: "rgba(129, 140, 248, 1)" }, { duration: 0.15 });
   };
   const backgroundImageUrl =
-    "assets/images/backgrounds/heroSectionBackground.jpg";
+    "http://localhost:3000/public/images/backgrounds/heroSectionBackground.jpg";
 
   return (
     <>
