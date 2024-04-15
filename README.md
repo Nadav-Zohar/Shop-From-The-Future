@@ -13,7 +13,7 @@ Ensure you have Node.js and npm installed on your machine to run the project loc
 
 **Clone the repository:**
 ```bash
-git clone <repository-url>
+git clone https://github.com/Nadav-Zohar/Shop-From-The-Future/tree/main
 ```
 
 **Navigate to the backend directory and set up the environment variables:**
@@ -21,10 +21,9 @@ git clone <repository-url>
 Create a `.env` file in the backend directory and add the following configurations:
 ```plaintext
 PORT=5555
-MONGO_URI="your_mongodb_connection_string_here"
-JWT_SECRET="your_jwt_secret_here"
+MONGO_URI="mongodb+srv://nadavzohar542:ss44ffppww%21%21@nadavzohar.kyfdatq.mongodb.net/shop-from-the-furute?retryWrites=true&w=majority&appName=nadavzohar"
+JWT_SECRET="veryCool"
 ```
-Replace `your_mongodb_connection_string_here` and `your_jwt_secret_here` with your actual MongoDB URI and JWT secret.
 
 **Start the backend server:**
 ```bash
