@@ -2,19 +2,47 @@
 import { motion } from "framer-motion";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 import AddProduct from "./AddProduct";
+import { MdDelete } from "react-icons/md";
 const ProductsTable = ({ allProducts, setAllProducts, modalInfo }) => {
+  const handleDelete = (productdId) => {
+    const deleteCheck = confirm(
+      "Are You Sure You Want To Delete This product?"
+    );
+    if (deleteCheck) {
+      fetch(`http://localhost:5555/products/${productdId}`, {
+        credentials: "include",
+        method: "DELETE",
+        headers: {
+          Authorization: localStorage.token,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Failed to delete the product");
+          }
+          setAllProducts((prevProduct) =>
+            prevProduct.filter((product) => product._id !== productdId)
+          );
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
+  };
   return (
     <div className="p-8 w-full bg-slate-800 rounded-md">
       <Table
         allProducts={allProducts}
         setAllProducts={setAllProducts}
         modalInfo={modalInfo}
+        handleDelete={handleDelete}
       />
     </div>
   );
 };
 
-const Table = ({ allProducts, setAllProducts, modalInfo }) => {
+const Table = ({ allProducts, setAllProducts, modalInfo, handleDelete }) => {
   const shift = (id, direction) => {
     const index = allProducts.findIndex((u) => u._id === id);
     let productsCopy = [...allProducts];
@@ -49,6 +77,7 @@ const Table = ({ allProducts, setAllProducts, modalInfo }) => {
             <th className="text-start p-4 font-medium">Price</th>
             <th className="text-start p-4 font-medium">Stock</th>
             <th className="text-start p-4 font-medium">CreatedAt</th>
+            <th className="text-start p-4 font-medium">Delete</th>
           </tr>
         </thead>
 
@@ -62,6 +91,7 @@ const Table = ({ allProducts, setAllProducts, modalInfo }) => {
                 shift={shift}
                 setAllProducts={setAllProducts}
                 modalInfo={modalInfo}
+                handleDelete={handleDelete}
               />
             );
           })}
@@ -71,7 +101,7 @@ const Table = ({ allProducts, setAllProducts, modalInfo }) => {
   );
 };
 
-const TableRows = ({ product, shift, modalInfo }) => {
+const TableRows = ({ product, shift, modalInfo, handleDelete }) => {
   return (
     <motion.tr
       layoutId={`row-${product._id}`}
@@ -81,13 +111,19 @@ const TableRows = ({ product, shift, modalInfo }) => {
       <td className="pl-4 w-8 text-lg text-indigo-500">
         <button
           className="hover:text-violet-600"
-          onClick={() => shift(product._id, "up")}
+          onClick={(e) => {
+            e.stopPropagation();
+            shift(product._id, "up");
+          }}
         >
           <FiChevronUp />
         </button>
         <button
           className="hover:text-violet-600"
-          onClick={() => shift(product._id, "down")}
+          onClick={(e) => {
+            e.stopPropagation();
+            shift(product._id, "down");
+          }}
         >
           <FiChevronDown />
         </button>
@@ -109,6 +145,17 @@ const TableRows = ({ product, shift, modalInfo }) => {
 
       <td className="p-4 font-medium text-slate-100">{product.stock}</td>
       <td className="p-4 font-medium text-slate-100">{product.createdAt}</td>
+      <td className="p-4 font-medium text-slate-100 flex flex-row justify-center">
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handleDelete(product._id);
+          }}
+          className="hover:scale-125 transition-transform"
+        >
+          <MdDelete className="text-red-400 text-lg cursor-pointer" />
+        </button>
+      </td>
     </motion.tr>
   );
 };

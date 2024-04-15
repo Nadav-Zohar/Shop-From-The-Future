@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
@@ -42,35 +43,56 @@ export default function AddProduct() {
     setErrors(errors);
   };
 
+  const uploadImages = (imageName, files) => {
+    const formData = new FormData();
+    formData.append("imageName", imageName);
+
+    files.forEach((file, index) => {
+      const fileExtension = file.name.split(".").pop();
+      formData.append(
+        "images",
+        file,
+        `${imageName}-${index + 1}.${fileExtension}`
+      );
+    });
+
+    fetch("http://localhost:5555/upload", {
+      method: "POST",
+      body: formData,
+      headers: {
+        Authorization: `Bearer ${localStorage.token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => console.log("Images uploaded successfully!", data))
+      .catch((error) => console.error("Error uploading images:", error));
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const imageName = formData.name.toLowerCase().replace(/\s+/g, "-");
 
-    // Create a new FormData object for the submission
-    const submitFormData = new FormData();
-    submitFormData.append("name", formData.name);
-    submitFormData.append("price", formData.price);
-    submitFormData.append("company", formData.company);
-    submitFormData.append("stock", formData.stock);
-    submitFormData.append("category", formData.category);
-    submitFormData.append("description", formData.description);
-    submitFormData.append("imageName", imageName);
+    const imageCount = files.length;
 
-    files.forEach((file, index) => {
-      submitFormData.append("images", file, `${imageName}-${index + 1}.png`);
-    });
-    submitFormData.append("imageCount", files.length); // Number of images
-
+    const newFormData = {
+      ...formData,
+      imageName: imageName,
+      imageCount: imageCount,
+    };
     fetch("http://localhost:5555/products", {
       credentials: "include",
       method: "POST",
       headers: {
+        "Content-Type": "application/json",
         Authorization: localStorage.token,
       },
-      body: submitFormData,
+      body: JSON.stringify(newFormData),
     })
       .then((response) => response.json())
-      .then(() => setIsOpen(false))
+      .then((data) => {
+        setIsOpen(false);
+        uploadImages(newFormData.imageName, files);
+      })
       .catch((error) => console.error("Error:", error));
   };
   return (
