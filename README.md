@@ -40,8 +40,8 @@ This command will provide you with a link to access the site locally.
 
 ## User Accounts
 
-- **Admin Access:** admin@gmail.com (Password: Aa1234)
-- **Regular User Access:** regular@gmail.com (Password: Aa1234)
+- **Admin Access:** admin@gmail.com (Password: Aa1234!)
+- **Regular User Access:** regular@gmail.com (Password: Aa1234!)
 
 You can sign up for a regular user account, but admin privileges are assigned exclusively by the site administrator.
 
